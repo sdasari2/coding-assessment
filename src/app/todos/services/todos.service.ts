@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { ITodo } from '../interfaces';
 import { ITodosState } from '../state/todos.reducer';
@@ -12,11 +12,13 @@ import * as todoSelectors from '../state/todo.selectors';
 export class TodosService {
 
   allTodos$: Observable<ITodo[]>;
+  filterChange$: Observable<FILTER_MODES>
 
   constructor(
     private store: Store<ITodosState>,
   ) {
-    this.allTodos$ = this.store.select(todoSelectors.allTodos);
+    this.allTodos$ = this.store.pipe(select(todoSelectors.allTodos));
+    this.filterChange$ = this.store.pipe(select(todoSelectors.filterMode));
   }
 
   addTodo(text: string): void {

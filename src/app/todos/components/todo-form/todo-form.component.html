@@ -1,0 +1,8 @@
+<form enctype="application/x-www-form-urlencoded" role="form" [formGroup]="todoForm" (ngSubmit)="submitTodo()" novalidate>
+  <input 
+    #todoText
+    [ngClass]="{'new-todo': newTodo, 'edit': !newTodo}"
+    formControlName="text"
+    [placeholder]="placeholderText"
+    (blur)="submitTodo()" autofocus>
+</form>

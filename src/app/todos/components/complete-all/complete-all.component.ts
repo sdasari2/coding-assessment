@@ -1,41 +1,22 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { TodosService } from '@app/todos/services/todos.service';
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-complete-all',
   styleUrls: [
     './complete-all.component.scss',
   ],
   templateUrl: './complete-all.component.html',
 })
-export class CompleteAllComponent implements OnInit, OnDestroy {
+export class CompleteAllComponent {
 
-  multipleTodosExist = false;
-  subscription: Subscription;
+  @Input() isAllComplete = false;
+  @Output() toggleAllComplete: EventEmitter<boolean> = new EventEmitter();
 
-  constructor (
-    private changeDetectorRef: ChangeDetectorRef,
-    private todosService: TodosService,
-  ) {}
+  constructor () { }
 
-  ngOnInit(): void {
-    this.subscription = this.todosService.allTodos$.subscribe(todos => {
-      this.multipleTodosExist = todos && todos.length > 1;
-      this.changeDetectorRef.markForCheck();
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  toggleCompleteAll(): void {
-    this.todosService.toggleAllCompleted();
+  toggleCompleteAll(ev): void {
+    this.isAllComplete = !this.isAllComplete;
+    this.toggleAllComplete.emit(this.isAllComplete)
   }
 
 }

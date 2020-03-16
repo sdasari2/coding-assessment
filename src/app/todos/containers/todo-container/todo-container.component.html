@@ -1,0 +1,14 @@
+<main class="todoapp">
+  <header class="header">
+    <h1>todos</h1>
+    <app-todo-form (formSubmit)="addTodo($event)"></app-todo-form>
+  </header>
+  <section class="main" *ngIf="multipleTodosExist">
+    <app-complete-all [isAllComplete]="isAllComplete" (toggleAllComplete)="toggleCompleteAll($event)"></app-complete-all>
+    <app-todos-list [todos]="todos" [filter]="filter"></app-todos-list>
+  </section>
+  <app-todo-footer *ngIf="multipleTodosExist" [todosLeft]="todosLeft" [hasCompletedItems]="hasCompletedItems" (footerAction)="onFooterAction($event)"></app-todo-footer>
+</main>
+<footer class="info">
+  <p>Double-click to edit a todo</p>
+</footer>

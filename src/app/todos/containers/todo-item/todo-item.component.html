@@ -1,0 +1,11 @@
+<li [ngClass]="{'editing': editTodo, 'completed': todo?.completed }">
+  <div class="view" (dblclick)="openEditTodo()" *ngIf="!editTodo; else todoForm">
+    <input class="toggle" type="checkbox" [checked]="todo?.completed" (change)="toggleTodoComplete()" />
+    <label>{{todo?.text}}</label>
+    <button class="destroy" (click)="removeTodo()"></button>
+  </div>
+
+  <ng-template #todoForm>
+    <app-todo-form [newTodo]="false" [initialTodoText]="todo?.text" (formSubmit)="updateTodo($event)"></app-todo-form>
+  </ng-template>
+</li>
